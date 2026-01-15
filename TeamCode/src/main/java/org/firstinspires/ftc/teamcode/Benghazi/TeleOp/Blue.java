@@ -83,14 +83,14 @@ public class Blue extends LinearOpMode {
                 intake.out(1.0);
             }
             reverse_intake=gamepad1.left_bumper;
- =
+
             if(gamepad1.a) {
                 while(currentHeading>relative_angle) {
                     pinpoint.update_blue();
                     drive.setDrivePower(new Pose2d(
                             0,
                             0,
-                            0.7
+                            -0.7
                     ));
                     drive.update();
                 }
