@@ -32,7 +32,19 @@ public class Pinpoint extends Constants.pinpoint {
         velocityY = pinpoint.getVelY(DistanceUnit.INCH);
         deltaY = 144 - currentY;
         deltaX = 0 - currentX;
-        relative_angle = Math.toDegrees(Math.atan2(144 - currentY, 0 - currentX));
+        relative_angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
+        distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+    public void update_red() {
+        pinpoint.update();
+        currentHeading = pinpoint.getHeading(AngleUnit.DEGREES);
+        currentX = pinpoint.getPosX(DistanceUnit.INCH);
+        currentY = pinpoint.getPosY(DistanceUnit.INCH);
+        velocityX = pinpoint.getVelX(DistanceUnit.INCH);
+        velocityY = pinpoint.getVelY(DistanceUnit.INCH);
+        deltaY = 144 - currentY;
+        deltaX = 144 - currentX;
+        relative_angle = Math.toDegrees(Math.atan2(deltaY, deltaX));
         distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 }

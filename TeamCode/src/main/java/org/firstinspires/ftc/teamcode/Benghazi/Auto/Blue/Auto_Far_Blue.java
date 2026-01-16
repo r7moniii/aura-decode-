@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Benghazi.Auto.Red;
+package org.firstinspires.ftc.teamcode.Benghazi.Auto.Blue;
 
 import static org.firstinspires.ftc.teamcode.Benghazi.Modules.Constants.outtake.velocity;
 import static org.firstinspires.ftc.teamcode.Benghazi.Modules.Constants.outtake.voltage;
@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Benghazi.Modules.Intake;
 import org.firstinspires.ftc.teamcode.Benghazi.Modules.Outtake;
 
 @Autonomous
-public class Auto_Near_Red extends OpMode {
+public class Auto_Far_Blue extends OpMode {
     Intake intake;
     Outtake outtake;
 
@@ -29,6 +29,7 @@ public class Auto_Near_Red extends OpMode {
     private Timer pathTimer;
     private int pathState;
     public static double shoot_duration=2;
+    ElapsedTime timer;
 
     public static double x_startPose=8.6, y_startPose=134.7, heading_StartPose=-90;
     public static double x_shoot=60, y_shoot=84, heading_shoot=145;
@@ -45,84 +46,95 @@ public class Auto_Near_Red extends OpMode {
             Path7,
             Path8,
             Path9,
-            Path10;
+            Path10,
+            Path11;
 
     public void buildPaths() {
-        Path1 = new Path(new BezierLine(new Pose(115, 131.6), new Pose(96, 106)));
-        Path1.setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(40));
+        Path1 = new Path(new BezierLine(new Pose(64.000, 9.500), new Pose(72.000, 72.000)));
+        Path1.setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135));
 
         Path2 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(96, 106),
-                                new Pose(89, 84)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(72.000, 72.000),
+                    new Pose(55.000, 36.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+            .build();
 
         Path3 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(89, 84.000),
-                                new Pose(127, 84.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(55.000, 36.000),
+                    new Pose(13.000, 36.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+            .build();
 
         Path4 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(127, 84.000),
-                                new Pose(96, 106)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(40))
-                .build();
+                new BezierCurve(
+                    new Pose(13.000, 36.000),
+                    new Pose(47.000, 30.000),
+                    new Pose(72.000, 72.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
+            .build();
 
         Path5 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(96, 106),
-                                new Pose(89, 60.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(72.000, 72.000),
+                    new Pose(21.000, 14.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+            .build();
 
         Path6 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(89, 60.000),
-                                new Pose(132, 60.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(21.000, 14.000),
+                    new Pose(11.000, 14.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+            .build();
 
-        Path7=follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(132, 60.000),
-                                new Pose(89, 55.000),
-                                new Pose(96, 106)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(40))
-                .build();
+        Path7 = follower.pathBuilder().addPath(
+                new BezierLine(
+                    new Pose(11.000, 14.000),
+                    new Pose(21.000, 9.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+            .build();
 
         Path8 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(96, 106),
-                                new Pose(89, 36.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(21.000, 9.000),
+                    new Pose(11.000, 9.000)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+            .build();
 
         Path9 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(89, 36.000),
-                                new Pose(132, 36.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                .build();
+                new BezierLine(
+                    new Pose(11.000, 9.000),
+                    new Pose(21.000, 16.600)
+                )
+            ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(-141))
+            .build();
 
         Path10 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(132, 36.000),
-                                new Pose(96, 106)
+                                new Pose(21.000, 16.600),
+
+                                new Pose(14.000, 12.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(40))
+                ).setLinearHeadingInterpolation(Math.toRadians(-141), Math.toRadians(-141))
+
                 .build();
+
+        Path11 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(21.000, 16.600),
+                        new Pose(72.000, 72.000)
+               )
+            ).setLinearHeadingInterpolation(Math.toRadians(-141), Math.toRadians(135))
+            .build();
     }
 
 
@@ -160,7 +172,7 @@ public class Auto_Near_Red extends OpMode {
             }
 
             case 2:
-                if(!follower.isBusy()) {
+                if (!follower.isBusy()) {
                     follower.followPath(Path2);
                     setPathState(3);
                 }
@@ -176,7 +188,7 @@ public class Auto_Near_Red extends OpMode {
                 break;
 
             case 4:
-                if(!follower.isBusy()) {
+                if (!follower.isBusy()) {
                     follower.followPath(Path3);
                     setPathState(5);
                 }
@@ -222,14 +234,14 @@ public class Auto_Near_Red extends OpMode {
                 break;
 
             case 8:
-                if(!follower.isBusy()) {
+                if (!follower.isBusy()) {
                     follower.followPath(Path5);
                     setPathState(9);
                 }
                 break;
 
             case 9:
-                if(!follower.isBusy()) {
+                if (!follower.isBusy()) {
                     outtake.block();
                     while (outtake.isBusy()) {
                         continue;
@@ -242,86 +254,49 @@ public class Auto_Near_Red extends OpMode {
 
             case 10:
                 if (!follower.isBusy()) {
-                    intake.stop();
+                    intake.in(0.5);
+                    follower.followPath(Path7);
                     setPathState(11);
-                    ElapsedTime timer;
-                    timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-                    timer.reset();
                 }
                 break;
 
             case 11:
-                if (!follower.isBusy()) {
-                    follower.followPath(Path7);
+                if(!follower.isBusy()) {
+                    intake.in(1.0);
+                    follower.followPath(Path8);
                     setPathState(12);
                 }
                 break;
 
             case 12:
                 if (!follower.isBusy()) {
-                    outtake.unblock();
-                    ElapsedTime timer;
-                    timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-                    timer.reset();
-                    intake.stop();
-                    outtake.shoot(0.9);
-                    while (timer.seconds() < 1.5) {
-                        continue;
-                    }
-                    intake.in(0.6);
-                    timer.reset();
-                    while (timer.seconds() < 1.3) {
-                        continue;
-                    }
-                    intake.stop();
-                    outtake.stop();
-                    outtake.update_pid();
+                    intake.in(0.5);
+                    follower.followPath(Path9);
                     setPathState(13);
                 }
                 break;
 
             case 13:
                 if (!follower.isBusy()) {
-                    follower.followPath(Path8);
+                    intake.in(1.0);
+                    follower.followPath(Path10);
                     setPathState(14);
                 }
                 break;
 
             case 14:
                 if(!follower.isBusy()) {
-                    outtake.block();
-                    while (outtake.isBusy()) {
-                        continue;
-                    }
-                    intake.in(1.0);
-                    follower.followPath(Path9);
+                    intake.stop();
+                    follower.followPath(Path11);
                     setPathState(15);
                 }
                 break;
 
             case 15:
                 if (!follower.isBusy()) {
-                    intake.stop();
-                    setPathState(16);
-                    ElapsedTime timer;
-                    timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-                    timer.reset();
-                }
-                break;
-
-            case 16:
-                if (!follower.isBusy()) {
-                    follower.followPath(Path10);
-                    setPathState(17);
-                }
-                break;
-
-            case 17:
-                if (!follower.isBusy()) {
                     outtake.unblock();
                     ElapsedTime timer;
                     timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
-                    timer.reset();
                     intake.stop();
                     outtake.shoot(0.9);
                     while (timer.seconds() < 1.5) {
@@ -334,11 +309,10 @@ public class Auto_Near_Red extends OpMode {
                     }
                     intake.stop();
                     outtake.stop();
-                    outtake.update_pid();
-                    setPathState(18);
+                    setPathState(16);
                 }
                 break;
-//
+
         }
     }
     VoltageSensor voltageSensor;
@@ -348,11 +322,12 @@ public class Auto_Near_Red extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         intake = new Intake(hardwareMap);
         outtake = new Outtake(hardwareMap);
+        timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
 
         intake.init();
         outtake.init();
         buildPaths();
-        follower.setStartingPose(new Pose(115, 131.6, Math.toRadians(36)));
+        follower.setStartingPose(new Pose(29, 131.6, Math.toRadians(144)));
 
     }
 

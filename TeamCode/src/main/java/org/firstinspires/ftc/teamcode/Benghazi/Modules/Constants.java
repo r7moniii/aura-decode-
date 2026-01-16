@@ -11,11 +11,11 @@ public class Constants {
     }
     @Configurable
     public static class outtake {
-        public static double kp = 0.0087, ki = 0, kd = 0, kf = 0;
-        public static double ks = 0.12, kv = 0.000553144, ka = 0.005; // ka = 0.005
+        public static double kp = 0, ki = 0, kd = 0, kf = 0;
+        public static double ks = 0.7, kv = 0.000425758806056058, ka = 0.005; // ka = 0.005
         public static double target_velocity, velocity;
         public static double block = 0.415, unblock = 0.33;
-        public static double voltage, nominalvoltage = 10.7;
+        public static double voltage, nominalvoltage = 12.78;
 
     }
     @Configurable

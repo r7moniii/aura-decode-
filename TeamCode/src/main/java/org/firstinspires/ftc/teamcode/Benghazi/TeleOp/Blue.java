@@ -43,7 +43,6 @@ public class Blue extends LinearOpMode {
         intake.init();
         outtake.init();
         pinpoint.init();
-
         waitForStart();
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -53,7 +52,6 @@ public class Blue extends LinearOpMode {
         }
 
         boolean start_intake=false, stop_intake=false, reverse_intake=false;
-
         while (opModeIsActive()) {
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
@@ -68,6 +66,7 @@ public class Blue extends LinearOpMode {
             );
 
             drive.update();
+
 
             if(gamepad1.right_trigger>0.01 && !start_intake) {
                 intake.in(1.0);
@@ -85,22 +84,8 @@ public class Blue extends LinearOpMode {
             reverse_intake=gamepad1.left_bumper;
 
             if(gamepad1.a) {
-                while(currentHeading>relative_angle) {
-                    pinpoint.update_blue();
-                    drive.setDrivePower(new Pose2d(
-                            0,
-                            0,
-                            -0.7
-                    ));
-                    drive.update();
-                }
                 outtake.unblock();
-                if(distance<10) {
-                    outtake.shoot(1);
-                }
-                else if(distance<30) {
-                    outtake.shoot(0);
-                }
+                outtake.shoot(0.83);
                 timer.reset();
                 intake.stop();
                 drive.setWeightedDrivePower(
@@ -111,16 +96,13 @@ public class Blue extends LinearOpMode {
                         )
                 );
                 drive.update();
+                outtake.unblock();
                 while(timer.seconds()<1.5) {
-                    if(timer.seconds()>0.9) {
-                        outtake.unblock();
-                    }
-                    pinpoint.update_blue();
+                    continue;
                 }
-                intake.in(1.0);
+                intake.in(0.6);
                 timer.reset();
                 while(timer.seconds()<1.3) {
-                    pinpoint.update_blue();
                     drive.update();
                 }
                 outtake.block();
@@ -133,6 +115,7 @@ public class Blue extends LinearOpMode {
             telemetry.addData("heading: ", Constants.pinpoint.currentHeading);
             telemetry.addData("distance: ", distance);
             telemetry.addData("angle: ", relative_angle);
+            telemetry.addData("voltage: ", Constants.outtake.voltage);
             telemetry.update();
         }
     }
